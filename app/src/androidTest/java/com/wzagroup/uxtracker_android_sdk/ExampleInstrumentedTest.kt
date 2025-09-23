@@ -17,7 +17,7 @@ class UXTrackerTest {
 
         // 2. Initialize SDK
         val setup = UXTrackerSetup(flushInterval = 5, batchSize = 10)
-        UXTracker.initialize(context, apiKey = "local-test-key", setup = setup)
+        UXTracker.shared().initialize(context, apiKey = "local-test-key", setup = setup)
 
         // 3. Track first 2 events
         for (i in 0 until 2) {

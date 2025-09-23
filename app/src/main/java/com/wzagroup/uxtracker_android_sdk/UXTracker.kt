@@ -12,39 +12,26 @@ import com.wzagroup.uxtracker_android_sdk.models.DefaultProperties
 import com.wzagroup.uxtracker_android_sdk.utils.apiUrl
 
 class UXTracker private constructor(
-    private val context: Context,
-    private val setup: UXTrackerSetup
 ) {
     companion object {
         @Volatile private var instance: UXTracker? = null
 
-        fun initialize(context: Context, apiKey: String, setup: UXTrackerSetup = UXTrackerSetup()): UXTracker {
+        fun shared(): UXTracker {
             return instance ?: synchronized(this) {
-                instance ?: UXTracker(context.applicationContext, setup).also {
+                instance ?: UXTracker().also {
                     instance = it
                 }
             }
         }
-
-        fun shared(): UXTracker {
-            return instance ?: throw IllegalStateException("UXTracker not initialized. Call initialize() first.")
-        }
     }
-
-    private val prefs: SharedPreferences = context.getSharedPreferences("uxtracker_prefs", Context.MODE_PRIVATE)
+    private var context: Context? = null
+    private var prefs: SharedPreferences? = null
     private val eventQueue = EventQueue()
-    private val dispatcher = EventDispatcher(apiUrl, setup)
+    private var dispatcher = EventDispatcher(apiUrl, UXTrackerSetup())
     private val identitiesController = IdentitiesController()
 
-    private var distinctId: String
+    private var distinctId: String? = null
     private val sessionId: String = generateSessionId()
-
-    init {
-        distinctId = prefs.getString("distinctid", null) ?: UUID.randomUUID().toString().also {
-            prefs.edit() { putString("distinctid", it) }
-        }
-        dispatcher.startAutoFlush(CoroutineScope(Dispatchers.IO), eventQueue)
-    }
 
     private fun generateSessionId(): String {
         val timestamp = System.currentTimeMillis()
@@ -52,15 +39,25 @@ class UXTracker private constructor(
         return "$timestamp-$rand"
     }
 
+    fun initialize(context: Context, apiKey: String, setup: UXTrackerSetup = UXTrackerSetup()) {
+        this.context = context.applicationContext
+        prefs = this.context?.getSharedPreferences("uxtracker_prefs", Context.MODE_PRIVATE)
+        dispatcher = EventDispatcher(apiUrl, setup)
+        distinctId = prefs?.getString("distinctid", null) ?: UUID.randomUUID().toString().also {
+            prefs?.edit() { putString("distinctid", it) }
+        }
+        dispatcher.startAutoFlush(CoroutineScope(Dispatchers.IO), eventQueue)
+    }
+
     fun identify(userId: String) {
         val anonymousId = distinctId
         distinctId = userId
-        prefs.edit() { putString("distinctid", userId) }
+        prefs?.edit() { putString("distinctid", userId) }
 
         val payload = mapOf(
             "type" to "Identify",
             "event" to "Identify",
-            "defaultproperties" to DefaultProperties.collect(context, sessionId, distinctId),
+            "defaultproperties" to DefaultProperties.collect(context, sessionId, distinctId ?: ""),
             "userproperties" to buildMap {
                 put("userid", userId)
                 if (anonymousId != userId) put("anonymousdistinctid", anonymousId)
@@ -76,7 +73,7 @@ class UXTracker private constructor(
         val payload = mapOf(
             "type" to "Event",
             "event" to eventName,
-            "defaultproperties" to DefaultProperties.collect(context, sessionId, distinctId),
+            "defaultproperties" to DefaultProperties.collect(context, sessionId, distinctId ?: ""),
             "userproperties" to userProperties
         )
         Log.d("UXTracker", "Queued event: $payload")
@@ -89,6 +86,6 @@ class UXTracker private constructor(
 
     fun reset() {
         distinctId = UUID.randomUUID().toString()
-        prefs.edit() { putString("distinctid", distinctId) }
+        prefs?.edit() { putString("distinctid", distinctId) }
     }
 }

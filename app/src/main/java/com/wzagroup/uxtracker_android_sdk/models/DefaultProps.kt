@@ -8,22 +8,22 @@ import java.util.*
 
 internal object DefaultProperties {
 
-    fun collect(context: Context, sessionId: String, distinctId: String): Map<String, Any> {
-        val packageManager = context.packageManager
-        val packageName = context.packageName
+    fun collect(context: Context?, sessionId: String, distinctId: String): Map<String, Any> {
+        val packageManager = context?.packageManager
+        val packageName = context?.packageName
 
         var appName = "Unknown"
         var appVersion = "Unknown"
         var appBuildNumber = "Unknown"
 
         try {
-            val applicationInfo = packageManager.getApplicationInfo(packageName, 0)
-            appName = packageManager.getApplicationLabel(applicationInfo).toString()
+            val applicationInfo = packageManager?.getApplicationInfo(packageName ?: "", 0)
+            appName = applicationInfo?.let { packageManager.getApplicationLabel(it) }.toString()
 
-            val packageInfo = packageManager.getPackageInfo(packageName, 0)
-            appVersion = packageInfo.versionName ?: "Unknown"
+            val packageInfo = packageName?.let { packageManager?.getPackageInfo(it, 0) }
+            appVersion = packageInfo?.versionName ?: "Unknown"
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                appBuildNumber = packageInfo.longVersionCode.toString()
+                appBuildNumber = packageInfo?.longVersionCode.toString()
             }
         } catch (e: PackageManager.NameNotFoundException) {
             e.printStackTrace()
