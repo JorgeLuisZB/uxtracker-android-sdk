@@ -62,3 +62,16 @@ dependencies {
     // Kotlin Test Library
     implementation("org.jetbrains.kotlin:kotlin-test:2.1.0")
 }
+
+afterEvaluate {
+    publishing {
+        publications {
+            create<MavenPublication>("release") {
+                from(components["release"])
+                groupId = "com.github.JorgeZB"
+                artifactId = "uxtracker-android-sdk"
+                version = "v1.0.0"
+            }
+        }
+    }
+}
