@@ -70,7 +70,7 @@ afterEvaluate {
                 from(components["release"])
                 groupId = "com.github.JorgeZB"
                 artifactId = "uxtracker-android-sdk"
-                version = "v0.0.1"
+                version = "v0.0.2"
             }
         }
     }
