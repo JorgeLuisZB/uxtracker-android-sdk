@@ -38,9 +38,12 @@ class EventDispatcher(
     }
 
     @Synchronized
-    fun flush(eventQueue: EventQueue) {
+    fun flush(eventQueue: EventQueue, onComplete: (() -> Unit)? = null) {
         val batch = eventQueue.dequeueBatch(uxTrackerSetup.batchSize)
-        if (batch.isEmpty()) return
+        if (batch.isEmpty()) {
+            onComplete?.invoke()
+            return
+        }
 
         val json = gson.toJson(batch)
         val request = Request.Builder()
@@ -55,6 +58,7 @@ class EventDispatcher(
                 Log.e("EventDispatcher", "Failed to send events", e)
                 // Re-enqueue if fail
                 batch.forEach { eventQueue.enqueue(it) }
+                onComplete?.invoke()
             }
 
             override fun onResponse(call: Call, response: Response) {
@@ -66,6 +70,7 @@ class EventDispatcher(
                         Log.d("EventDispatcher", "Batch sent successfully")
                     }
                 }
+                onComplete?.invoke()
             }
         })
     }

@@ -64,9 +64,10 @@ class UXTracker private constructor(
             }
         )
 
-        eventQueue.enqueue(payload)
-
-        identitiesController.identifyUser(payload)
+        dispatcher.flush(eventQueue) {
+            identitiesController.identifyUser(payload)
+            eventQueue.enqueue(payload)
+        }
     }
 
     fun track(eventName: String, userProperties: Map<String, Any> = emptyMap()) {
