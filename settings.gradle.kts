@@ -20,4 +20,4 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "uxtracker-android-sdk"
-include(":app")
+include(":uxtracker")
