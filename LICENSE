@@ -1,0 +1,56 @@
+Copyright © 2025-2026 WZA Group S.A. de C.V. All rights reserved.
+
+This Software Development Kit (SDK), including all associated source code, binaries, documentation, and resources (collectively, the "SDK"), is licensed by WZA Group S.A. de C.V. ("Licensor") to the individual or entity ("Licensee") who has entered into a valid commercial agreement with Licensor.
+
+By installing, copying, or otherwise using the SDK, Licensee agrees to be bound by the terms of this License Agreement.
+
+1. LICENSE GRANT
+
+Subject to full payment of applicable fees and compliance with this Agreement, Licensor grants Licensee a limited, non-exclusive, non-transferable, revocable license to:
+  - Integrate the SDK into Licensee’s Android applications;
+  - Use the SDK solely for internal development and distribution of Licensee’s own applications;
+  - Distribute applications incorporating the SDK to end-users, provided the SDK is not exposed or made independently available.
+
+2. RESTRICTIONS
+
+Licensee shall not:
+  - Distribute, sublicense, sell, lease, or rent the SDK in whole or in part to any third party;
+  - Modify, reverse engineer, decompile, or disassemble the SDK;
+  - Use the SDK to create a competing product or service;
+  - Use the SDK in any way not expressly permitted under this Agreement.
+
+3. OWNERSHIP
+
+The SDK is licensed, not sold. All rights, title, and interest in and to the SDK, including all intellectual property rights, remain with Licensor.
+
+4. USAGE LIMITATIONS
+
+Use of the SDK may be subject to usage limits (e.g., number of installs, API calls, etc.) as defined in the commercial agreement. Licensor reserves the right to suspend or terminate access if such limits are exceeded.
+
+5. DATA COLLECTION
+
+If the SDK collects usage, behavioral, or device data, such collection is subject to Licensee's compliance with all applicable laws, including user consent and data protection regulations (e.g., GDPR, CCPA). Licensor disclaims any responsibility for Licensee’s failure to comply.
+
+6. TERM AND TERMINATION
+
+This License is effective until terminated. Licensor may terminate this License immediately upon notice if Licensee breaches any term of this Agreement. Upon termination, Licensee must cease all use of the SDK and destroy all copies in its possession.
+
+7. DISCLAIMER OF WARRANTY
+
+THE SDK IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, OR NON-INFRINGEMENT.
+
+8. LIMITATION OF LIABILITY
+
+IN NO EVENT SHALL LICENSOR BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR EXEMPLARY DAMAGES, INCLUDING BUT NOT LIMITED TO LOSS OF PROFITS OR DATA, ARISING FROM THE USE OR INABILITY TO USE THE SDK.
+
+9. GOVERNING LAW
+
+This License shall be governed by and construed in accordance with the federal laws of the United Mexican States, without regard to conflict of law principles.
+
+10. CONTACT
+
+For licensing, support, or legal inquiries, contact:
+
+WZA Group S.A. de C.V.
+Cajeme 1120, Obregón, México  
+Email: legal@wzagroup.com
