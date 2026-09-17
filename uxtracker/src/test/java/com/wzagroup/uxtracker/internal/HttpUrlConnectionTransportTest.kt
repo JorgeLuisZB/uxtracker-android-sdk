@@ -50,4 +50,15 @@ class HttpUrlConnectionTransportTest {
         assertEquals(307, transport.post(server.url("/v1/batch").toString(), emptyMap(), "{}").status)
         assertEquals(1, server.requestCount)
     }
+
+    @Test
+    fun retriesOnceWhenAKeptAliveConnectionWasAlreadyClosed() {
+        server.enqueue(MockResponse().setSocketPolicy(okhttp3.mockwebserver.SocketPolicy.DISCONNECT_AT_START))
+        server.enqueue(MockResponse().setBody("{\"accepted\":1,\"rejected\":[]}"))
+
+        val response = transport.post(server.url("/v1/batch").toString(), emptyMap(), "{\"events\":[]}")
+
+        assertEquals(200, response.status)
+        assertEquals(2, server.requestCount)
+    }
 }
